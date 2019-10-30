@@ -37,3 +37,19 @@ npm run test:unit
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### TODO
+
+ADD:
+- forms validations
+- error handlers
+- no auth access handlers (your feed for example)
+- post management functionality
+- article actions functionality
+- settings functionality
+- pagination
+- types/interfaces revision
+- tag management
+
+REMOVE:
+- warnings

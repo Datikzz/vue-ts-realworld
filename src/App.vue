@@ -1,29 +1,47 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div id="app" v-if="isInitialized">
+    <app-header />
+    <router-view />
+    <app-footer />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import HelloWorld from './components/HelloWorld.vue';
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
+import config from '@/config/index.ts'
+import User from '@/store/modules/user'
+import { mapGetters } from 'vuex'
 
 @Component({
+  name: 'App',
   components: {
-    HelloWorld,
+    AppHeader,
+    AppFooter,
   },
+  computed: {
+    ...mapGetters('user',{
+      isLoggedIn: 'isLoggedIn'
+    })
+  }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+  private isInitialized: boolean = false
+
+  async created () {
+    try {
+      const token = localStorage.getItem(config.SUM_LOCAL_STORAGE_KEY_FUR_JWT)
+      if (token) {
+        await User.loadUser(token)
+      }
+      this.isInitialized = true
+    } catch (e) {
+      console.error(e)
+    }
+  }
+}
 </script>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
