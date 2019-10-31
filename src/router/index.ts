@@ -71,7 +71,7 @@ function buildAuthPageGuard (store: Store<{}>) {
   return function authPageGuard (to: Route, from: Route, next: Next) {
     const token = localStorage.getItem(config.SUM_LOCAL_STORAGE_KEY_FUR_JWT)
     const isLoggedIn = store.getters['user/isLoggedIn']
-      token || isLoggedIn
+    token || isLoggedIn
       ? next(vueRoutes.home)
       : next()
   }
@@ -79,7 +79,8 @@ function buildAuthPageGuard (store: Store<{}>) {
 
 function buildInAppRouteGuard (store: Store<{}>) {
   return function inAppRouteGuard (to: Route, from: Route, next: Next) {
-    store.getters['user/isLoggedIn']
+    const token = localStorage.getItem(config.SUM_LOCAL_STORAGE_KEY_FUR_JWT)
+    token || store.getters['user/isLoggedIn']
       ? next()
       : next(vueRoutes.login)
   }
