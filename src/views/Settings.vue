@@ -6,10 +6,11 @@
         <div class="col-md-6 offset-md-3 col-xs-12">
           <h1 class="text-xs-center">Your Settings</h1>
 
+          <img :src="form.image" class="settings-page__user-img" />
           <form @submit.prevent="submit">
             <fieldset>
                 <fieldset class="form-group">
-                  <input 
+                  <input
                     class="form-control"
                     type="text"
                     placeholder="URL of profile picture"
@@ -17,23 +18,23 @@
                     v-model="form.image">
                 </fieldset>
                 <fieldset class="form-group">
-                  <input 
-                    class="form-control form-control-lg" 
-                    type="text" 
+                  <input
+                    class="form-control form-control-lg"
+                    type="text"
                     placeholder="Your Name"
                     :disabled="isPending"
                     v-model="form.username">
                 </fieldset>
                 <fieldset class="form-group">
-                  <textarea 
+                  <textarea
                     class="form-control form-control-lg"
-                    rows="8" 
+                    rows="8"
                     placeholder="Short bio about you"
                     :disabled="isPending"
                     v-model="form.bio"></textarea>
                 </fieldset>
                 <fieldset class="form-group">
-                  <input 
+                  <input
                     class="form-control form-control-lg"
                     type="email"
                     placeholder="Email"
@@ -41,32 +42,33 @@
                     v-model="form.email">
                 </fieldset>
                 <fieldset class="form-group">
-                  <input 
-                    class="form-control form-control-lg" 
-                    type="password" 
-                    placeholder="Password"
+                  <input
+                    class="form-control form-control-lg"
+                    type="password"
+                    placeholder="Current password"
                     :disabled="isPending"
                     v-model="form.oldPassword">
                 </fieldset>
                 <fieldset class="form-group">
-                  <input 
-                    class="form-control form-control-lg" 
-                    type="password" 
+                  <input
+                    class="form-control form-control-lg"
+                    type="password"
                     placeholder="Password"
                     :disabled="isPending"
                     v-model="form.password">
                 </fieldset>
                 <fieldset class="form-group">
-                  <input 
-                    class="form-control form-control-lg" 
-                    type="password" 
+                  <input
+                    class="form-control form-control-lg"
+                    type="password"
                     placeholder="Confirm password"
                     :disabled="isPending"
                     v-model="form.confirmPassword">
                 </fieldset>
                 <button
                   class="btn btn-lg btn-primary pull-xs-right"
-                  :disabled="isPending"
+                  :disabled="!isFormValid || isPending"
+                  :title="!isFormValid ? 'Bruh, ur data is somehow not valid' : ''"
                   type="submit">
                   Update Settings
                 </button>
@@ -81,7 +83,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { SettingsForm } from '@/store/modules'
+import { SettingsForm, SettingsRequestBody } from '@/store/modules'
 import UserModule from '@/store/modules/user'
 
 @Component({
@@ -115,12 +117,26 @@ export default class SettingsPage extends Vue {
 
   async submit () {
     this.isPending = true
+    if (!this.isFormValid) { return }
     try {
-      await UserModule.UPDATE_USER(this.form)
+      const opts: SettingsRequestBody = {
+        bio: this.form.bio,
+        image: this.form.image,
+        username: this.form.username,
+        email: this.form.email,
+        password: this.form.password,
+      }
+      await UserModule.UPDATE_USER(opts)
     } catch (e) {
       console.error(e)
     }
     this.isPending = false
+  }
+
+  get isFormValid () {
+    return this.form.oldPassword !== this.form.password
+      && this.form.password.length >= 8
+      && this.form.password === this.form.confirmPassword
   }
 
   get user () {
@@ -128,3 +144,13 @@ export default class SettingsPage extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .settings-page__user-img {
+    display: block;
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+    margin: 0 auto 1rem;
+  }
+</style>
