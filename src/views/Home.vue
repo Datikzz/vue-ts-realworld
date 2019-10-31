@@ -83,8 +83,10 @@ export default class Home extends Vue {
 
   async created () {
     try {
-      await Tag.GET_TAGS()
-      await Article.GET_ARTICLES()
+      await Promise.all([
+        Tag.GET_TAGS(),
+        Article.GET_ARTICLES()
+      ])
     } catch (e) {
       console.error(e)
     }
@@ -93,12 +95,12 @@ export default class Home extends Vue {
     return Tag.tags
   }
 
-  get isUserTab () {
-    return this.activeTab === FEED_TAB_CONST.USER_TAB
-  }
-
   get feed () {
     return Article.articles
+  }
+
+  get isUserTab () {
+    return this.activeTab === FEED_TAB_CONST.USER_TAB
   }
 
   get filters (): ArticleRequestFilter {
