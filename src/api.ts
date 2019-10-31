@@ -62,6 +62,10 @@ class ApiService extends Api {
     return this.apiInstance.post(this._formatUrl(url), data, opts)
   }
 
+  put (url: string, data = {}, opts = {}) {
+    return this.apiInstance.put(this._formatUrl(url), data, opts)
+  }
+
   delete (url: string, data = {}) {
     return this.apiInstance.delete(this._formatUrl(url), data)
   }

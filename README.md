@@ -50,6 +50,7 @@ ADD:
 - pagination
 - types/interfaces revision
 - tag management
+- notifications about operations status
 
 REMOVE:
-- warnings
+- terminal warnings

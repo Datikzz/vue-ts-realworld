@@ -1,6 +1,6 @@
 // import { MutationTree, ActionTree } from 'vuex'
 import { Module, VuexModule, Mutation, Action, getModule } from 'vuex-module-decorators'
-import { User, AuthRequestBody, RegisterRequestBody } from '../modules'
+import { User, AuthRequestBody, RegisterRequestBody, SettingsRequestBody } from '../modules'
 import store from '@/store'
 import ApiService from '@/api'
 import { AxiosResponse } from 'axios'
@@ -26,8 +26,8 @@ class UserModule extends VuexModule {
 
   // @Action({ commit: 'SET_USER' })
   @Action({ rawError: true })
-  async login (userCreds: AuthRequestBody) {
-    const payload = { 'user': userCreds }
+  async LOG_IN (userCreds: AuthRequestBody) {
+    const payload = { user: userCreds }
     const res: AxiosResponse = await ApiService.post('users/login', payload)
     ApiService.setJWT(res.data.user.token) // meh, probably add lodash
     this.context.commit('SET_USER', res.data.user)
@@ -35,22 +35,29 @@ class UserModule extends VuexModule {
   }
 
   @Action({ commit: 'SET_USER', rawError: true })
-  async register (userCreds: RegisterRequestBody) {
-    const payload = { 'user': userCreds }
+  async REGISTER (userCreds: RegisterRequestBody) {
+    const payload = { user: userCreds }
     const res: AxiosResponse = await ApiService.post('users', payload)
     ApiService.setJWT(res.data.user.token) // meh, probably add lodash
     return res.data.user
   }
 
   @Action({ commit: 'SET_USER', rawError: true })
-  async loadUser (token: string) {
+  async LOAD_USER (token: string) {
     ApiService.setJWT(token)
     const res: AxiosResponse = await ApiService.get('user')
     return res.data.user
   }
 
+  @Action({ commit: 'SET_USER', rawError: true })
+  async UPDATE_USER (user: SettingsRequestBody) {
+    const payload = { user }
+    const res: AxiosResponse = await ApiService.put('user', payload)
+    return res.data.user
+  }
+
   @Action
-  logout () {
+  LOG_OUT () {
     ApiService.deleteJWT()
     this.context.commit('REMOVE_USER')
   }

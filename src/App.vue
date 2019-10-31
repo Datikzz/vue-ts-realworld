@@ -21,10 +21,10 @@ import { mapGetters } from 'vuex'
     AppFooter,
   },
   computed: {
-    ...mapGetters('user',{
-      isLoggedIn: 'isLoggedIn'
-    })
-  }
+    ...mapGetters('user', {
+      isLoggedIn: 'isLoggedIn',
+    }),
+  },
 })
 export default class App extends Vue {
   private isInitialized: boolean = false
@@ -33,7 +33,7 @@ export default class App extends Vue {
     try {
       const token = localStorage.getItem(config.SUM_LOCAL_STORAGE_KEY_FUR_JWT)
       if (token) {
-        await User.loadUser(token)
+        await User.LOAD_USER(token)
       }
       this.isInitialized = true
     } catch (e) {

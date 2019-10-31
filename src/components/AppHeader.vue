@@ -75,7 +75,7 @@ import User from '@/store/modules/user'
 })
 export default class AppHeader extends Vue {
   logOutUser () {
-    User.logout()
+    User.LOG_OUT()
     location.reload()
   }
 }

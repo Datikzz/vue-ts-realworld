@@ -75,7 +75,7 @@ export default class SignUp extends Vue {
 
   private async signUp () {
     try {
-      await User.register({
+      await User.REGISTER({
         username: this.form.username,
         email: this.form.email,
         password: this.form.password,

@@ -73,7 +73,7 @@ export default class Login extends Vue {
 
   private async submitLogin () {
     try {
-      await User.login({
+      await User.LOG_IN({
         email: this.form.email,
         password: this.form.password,
       })

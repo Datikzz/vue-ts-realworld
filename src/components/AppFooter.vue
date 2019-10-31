@@ -27,6 +27,6 @@ export default class AppFooter extends Vue {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
 </style>

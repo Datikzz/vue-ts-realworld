@@ -21,7 +21,7 @@
               @click="toggleSubscription">
               <i class="ion-plus-round"></i>
               &nbsp;
-              {{ subscriptionBtnLabel }} {{ profile.username }}
+              {{ isFollowing ? 'Unfollow' : 'Follow' }} {{ profile.username }}
             </button>
           </div>
 
@@ -36,13 +36,13 @@
           <div class="articles-toggle">
             <ul class="nav nav-pills outline-active">
               <li class="nav-item">
-                <a 
+                <a
                   class="nav-link"
                   :class="{active: activeTab === TAB_CONST.PROFILE_ARTICLES}"
                   @click="selectTab(TAB_CONST.PROFILE_ARTICLES)">My Articles</a>
               </li>
               <li class="nav-item">
-                <a 
+                <a
                   class="nav-link"
                   :class="{active: activeTab === TAB_CONST.FAVORITED_ARTICLES}"
                   @click="selectTab(TAB_CONST.FAVORITED_ARTICLES)">Favorited Articles</a>
@@ -50,7 +50,7 @@
             </ul>
           </div>
 
-          <article-list 
+          <article-list
             :byFilters="filters" />
         </div>
       </div>
@@ -91,7 +91,7 @@ export default class ProfilePage extends Vue {
   async toggleSubscription () {
     this.isPending = true
     try {
-      !this.isFollowing 
+      !this.isFollowing
       ? await ProfileModule.FOLLOW_PROFILE(this.profileUsername)
       : await ProfileModule.UNFOLLOW_PROFILE(this.profileUsername)
     } catch (e) {
@@ -101,7 +101,7 @@ export default class ProfilePage extends Vue {
   }
 
   get profile () {
-    return ProfileModule.profile
+    return ProfileModule.profile!
   }
 
   get profileUsername (): string {
@@ -109,15 +109,11 @@ export default class ProfilePage extends Vue {
   }
 
   get isCurrentUser () {
-    return this.profile && this.profile.username === UserModule.username
+    return this.profile.username === UserModule.username
   }
 
   get isFollowing () {
-    return this.profile && this.profile.following
-  }
-
-  get subscriptionBtnLabel (): string {
-    return this.isFollowing ? 'Unfollow' : 'Follow'
+    return this.profile.following
   }
 
   get filters (): ArticleRequestFilter {

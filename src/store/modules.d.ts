@@ -13,28 +13,8 @@ export interface User {
   image?: string
 }
 
-export interface AuthRequestBody {
-  email: string
-  password: string
-}
-
-export interface RegisterRequestBody {
-  username: string
-  email: string
-  password: string
-}
-
-export interface AuthRequestResponse {
-  user: User
-}
-
 export interface Tag {
   tags: string[]
-}
-
-export interface ArticleResponse {
-  articles: Article[]
-  articlesCount: number
 }
 
 export interface Article {
@@ -57,6 +37,46 @@ export interface Author {
   following: boolean
 }
 
+// REQUEST BODY
+
+export interface AuthRequestBody {
+  email: string
+  password: string
+}
+
+export interface RegisterRequestBody {
+  username: string
+  email: string
+  password: string
+}
+
+export interface ArticleRequestBody {
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+}
+
+export interface SettingsRequestBody {
+  email: string,
+  bio?: string,
+  image?: string
+  username: string
+  password: string
+}
+
+// REQUEST RESPONSE
+
+export interface AuthRequestResponse {
+  user: User
+}
+
+export interface ArticleResponse {
+  articles: Article[]
+  articlesCount: number
+}
+
+// FORMS
 export interface ArticleRequestFilter {
   tag?: string
   author?: string
@@ -65,9 +85,7 @@ export interface ArticleRequestFilter {
   offset?: number
 }
 
-export interface ArticleRequestBody {
-  title: string;
-  description: string;
-  body: string;
-  tagList: string[];
+export interface SettingsForm extends SettingsRequestBody {
+  confirmPassword: string
+  oldPassword: string
 }

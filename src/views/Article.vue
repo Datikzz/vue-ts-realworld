@@ -27,7 +27,7 @@
             @click="toggleProfileSubscription(article.author.username)">
             <i class="ion-plus-round"></i>
             &nbsp;
-            {{ subscriptionBtnLabel }} {{ article.author.username }}
+            {{ isFollowingProfile ? 'Unfollow' : 'Follow' }} {{ article.author.username }}
           </button>
           &nbsp;&nbsp;
           <button
@@ -169,19 +169,15 @@ export default class ArticlePage extends Vue {
   }
 
   get article () {
-    return ArticleModule.article
+    return ArticleModule.article!
   }
 
   get isCurrentUser () {
-    return this.article && this.article.author.username === UserModule.username
+    return this.article.author.username === UserModule.username
   }
 
   get isFollowingProfile () {
-    return this.article && this.article.author.following
-  }
-
-  get subscriptionBtnLabel (): string {
-    return this.isFollowingProfile ? 'Unfollow' : 'Follow'
+    return this.article.author.following
   }
 
   async toggleFavorite (article: Article) {
@@ -207,7 +203,7 @@ export default class ArticlePage extends Vue {
       }
       this.$store.commit('article/SET_ARTICLE', {
         ...this.article,
-        author: updatedProfile
+        author: updatedProfile,
       })
     } catch (e) {
       console.error(e)
