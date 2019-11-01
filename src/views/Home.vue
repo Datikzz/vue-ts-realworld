@@ -50,6 +50,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+// custom decorator, tried to get rid of below (warning/error?)
+// Property 'username' does not exist on type 'Home'
+// import { MapGetters } from '@/common/decorators/MapGetters'
 import { mapGetters } from 'vuex'
 import ArticleList from '@/components/ArticleList.vue'
 import TagModule from '@/store/modules/tag'
@@ -107,7 +110,7 @@ export default class Home extends Vue {
     return {
       tag: this.selectedTag,
       author: '',
-      // favorited: !this.isUserTab ? '' : this.username,
+      favorited: !this.isUserTab ? '' : this.username,
     }
   }
 }
