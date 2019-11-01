@@ -1,56 +1,48 @@
 <template>
-  <div class="auth-page">
-    <div class="container page">
-      <div class="row">
+  <div class="sign-up-page">
+    <h1 class="text-xs-center">Sign up</h1>
+    <router-link 
+      :to='vueRoutes.login.name'
+      class="text-xs-center">
+      Have an account?
+    </router-link>
 
-        <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="text-xs-center">Sign up</h1>
-          <router-link 
-            :to='vueRoutes.login.name'
-            class="text-xs-center">
-            Have an account?
-          </router-link>
+    <ul class="error-messages" v-if="errorMsgs.length">
+      <li 
+        v-for="(msg, index) in errorMsgs"
+        :key="index">
+        {{ msg }}
+      </li>
+    </ul>
 
-          <ul class="error-messages" v-if="errorMsgs.length">
-            <li 
-              v-for="(msg, index) in errorMsgs"
-              :key="index">
-              {{ msg }}
-            </li>
-          </ul>
-
-          <form @submit.prevent="signUp">
-            <fieldset class="form-group">
-              <input 
-                class="form-control form-control-lg"
-                type="text"
-                placeholder="Your Name"
-                v-model.trim="form.username">
-            </fieldset>
-            <fieldset class="form-group">
-              <input 
-                class="form-control form-control-lg"
-                type="text"
-                placeholder="Email"
-                v-model.trim="form.email">
-            </fieldset>
-            <fieldset class="form-group">
-              <input 
-                class="form-control form-control-lg"
-                type="password"
-                placeholder="Password"
-                v-model="form.password">
-            </fieldset>
-            <button 
-              class="btn btn-lg btn-primary pull-xs-right"
-              type='submit'>
-              Sign up
-            </button>
-          </form>
-
-        </div>
-      </div>
-    </div>
+    <form @submit.prevent="signUp">
+      <fieldset class="form-group">
+        <input 
+          class="form-control form-control-lg"
+          type="text"
+          placeholder="Your Name"
+          v-model.trim="form.username">
+      </fieldset>
+      <fieldset class="form-group">
+        <input 
+          class="form-control form-control-lg"
+          type="text"
+          placeholder="Email"
+          v-model.trim="form.email">
+      </fieldset>
+      <fieldset class="form-group">
+        <input 
+          class="form-control form-control-lg"
+          type="password"
+          placeholder="Password"
+          v-model="form.password">
+      </fieldset>
+      <button 
+        class="btn btn-lg btn-primary pull-xs-right"
+        type='submit'>
+        Sign up
+      </button>
+    </form>
   </div>  
 </template>
 

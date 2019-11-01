@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/views/Home.vue'
 import { vueRoutes } from './routes'
 import { Route, NavigationGuard } from 'vue-router'
 import { Store } from 'vuex'
@@ -20,43 +19,58 @@ export function buildRouter (store: Store<{}>) {
       redirect: vueRoutes.home,
     },
     {
-      path: vueRoutes.home.path,
-      name: vueRoutes.home.name,
-      component: Home,
+      path: '/',
+      component: () => import('@/AppContent.vue'),
+      redirect: vueRoutes.home,
+      children: [
+        {
+          path: vueRoutes.home.path,
+          name: vueRoutes.home.name,
+          component: () => import('@/views/Home.vue'),
+        },
+        {
+          path: vueRoutes.settings.path,
+          name: vueRoutes.settings.name,
+          component: () => import('@/views/Settings.vue'),
+          beforeEnter: buildInAppRouteGuard(store),
+        },
+        {
+          path: vueRoutes.editor.path,
+          name: vueRoutes.editor.name,
+          component: () => import('@/views/Editor.vue'),
+          beforeEnter: buildInAppRouteGuard(store),
+        },
+        {
+          path: vueRoutes.profile.path,
+          name: vueRoutes.profile.name,
+          component: () => import('@/views/Profile.vue'),
+        },
+        {
+          path: vueRoutes.article.path,
+          name: vueRoutes.article.name,
+          component: () => import('@/views/Article.vue'),
+        },
+      ]
     },
     {
-      path: vueRoutes.login.path,
-      name: vueRoutes.login.name,
-      component: () => import('@/views/Login.vue'),
-      beforeEnter: buildAuthPageGuard(store),
-    },
-    {
-      path: vueRoutes.register.path,
-      name: vueRoutes.register.name,
-      component: () => import('@/views/Signup.vue'),
-      beforeEnter: buildAuthPageGuard(store),
-    },
-    {
-      path: vueRoutes.settings.path,
-      name: vueRoutes.settings.name,
-      component: () => import('@/views/Settings.vue'),
-      beforeEnter: buildInAppRouteGuard(store),
-    },
-    {
-      path: vueRoutes.editor.path,
-      name: vueRoutes.editor.name,
-      component: () => import('@/views/Editor.vue'),
-      beforeEnter: buildInAppRouteGuard(store),
-    },
-    {
-      path: vueRoutes.profile.path,
-      name: vueRoutes.profile.name,
-      component: () => import('@/views/Profile.vue'),
-    },
-    {
-      path: vueRoutes.article.path,
-      name: vueRoutes.article.name,
-      component: () => import('@/views/Article.vue'),
+      path: '/auth',
+      name: 'auth',
+      redirect: vueRoutes.login,
+      component: () => import('@/views/Auth.vue'),
+      children: [
+        {
+          path: vueRoutes.login.path,
+          name: vueRoutes.login.name,
+          component: () => import('@/views/Login.vue'),
+          beforeEnter: buildAuthPageGuard(store),
+        },
+        {
+          path: vueRoutes.register.path,
+          name: vueRoutes.register.name,
+          component: () => import('@/views/Signup.vue'),
+          beforeEnter: buildAuthPageGuard(store),
+        },
+      ] 
     },
   ]
 
