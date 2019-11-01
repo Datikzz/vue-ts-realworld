@@ -34,8 +34,14 @@
                   class="form-control" 
                   placeholder="Enter tags"
                   v-model="form.tagList">
-                  <div class="tag-list">
-                  </div>
+                  <ul class="tag-list">
+                    <li 
+                      class="tag-default tag-pill tag-outline"
+                      v-for="(tag, index) in form.tagList"
+                      :key="index">
+                      {{ tag }}
+                    </li>
+                  </ul>
               </fieldset>
               <button class="btn btn-lg pull-xs-right btn-primary" type="submit">
                 Publish Article
