@@ -152,5 +152,6 @@ export default class SettingsPage extends Vue {
     height: 100px;
     border-radius: 100px;
     margin: 0 auto 1rem;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75); 
   }
 </style>
