@@ -1,7 +1,7 @@
 <template>
   <div class="article-preview">
     <template v-if="articles && articles.length">
-      <article-preview 
+      <article-preview
         v-for="(article, index) in articles"
         :key="index"
         :article="article"
@@ -19,7 +19,7 @@ import { ArticleRequestFilter } from '@/store/modules'
 import { vueRoutes } from '@/router/routes'
 import ArticlePreview from '@/components/ArticlePreview.vue'
 import Article from '@/store/modules/article'
- 
+
 @Component({
   name: 'ArticleList',
   components: {

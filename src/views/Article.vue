@@ -137,14 +137,13 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { mapActions, mapState } from 'vuex'
+import { vueRoutes } from '@/router/routes'
 import ArticlePreview from '@/components/ArticlePreview.vue'
 import Tag from '@/store/modules/tag'
-import { Article } from '@/store/modules'
 import ArticleModule from '@/store/modules/article'
 import ProfileModule from '@/store/modules/profile'
 import UserModule from '@/store/modules/user'
-import { vueRoutes } from '@/router/routes'
-
+import { Article } from '@/store/modules'
 
 @Component({
   name: 'ArticlePage',

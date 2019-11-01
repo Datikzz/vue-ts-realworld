@@ -16,61 +16,60 @@ import config from '@/config/index.ts'
 // };
 
 abstract class Api {
-  abstract baseUrl: string
-  abstract apiInstance: AxiosInstance
-  abstract createInstance (): AxiosInstance
-  abstract get(url: string, opts?: object): Promise<AxiosResponse>
-  abstract post(url: string, data?: object, opts?: object): Promise<AxiosResponse>
-  abstract delete(url: string, data?: object): Promise<AxiosResponse>
-  abstract setJWT (jwt: string): void
-  abstract deleteJWT (): void
+  public abstract baseUrl: string
+  public abstract createInstance (): AxiosInstance
+  public abstract get(url: string, opts?: object): Promise<AxiosResponse>
+  public abstract post(url: string, data?: object, opts?: object): Promise<AxiosResponse>
+  public abstract delete(url: string, data?: object): Promise<AxiosResponse>
+  public abstract setJWT (jwt: string): void
+  public abstract deleteJWT (): void
   protected abstract _formatUrl(url: string): string
 }
 
 class ApiService extends Api {
-  baseUrl: string
-  apiInstance: AxiosInstance
-  constructor() {
+  public baseUrl: string
+  private apiInstance: AxiosInstance
+  constructor () {
     super()
 
     this.baseUrl = config.BASE_URL
     this.apiInstance = this.createInstance()
   }
 
-  createInstance () {
+  public createInstance () {
     return axios.create({
       baseURL: this.baseUrl,
     })
   }
 
-  setJWT (jwt: string) {
+  public setJWT (jwt: string) {
     this.apiInstance.defaults.headers.common['Authorization'] = `Token ${jwt}`
-    localStorage.setItem(config.SUM_LOCAL_STORAGE_KEY_FUR_JWT, jwt);
+    localStorage.setItem(config.SUM_LOCAL_STORAGE_KEY_FUR_JWT, jwt)
   }
 
-  deleteJWT () {
+  public deleteJWT () {
     // this.apiInstance.defaults.headers.common['Authorization'] = null
     delete this.apiInstance.defaults.headers.common['Authorization']
-    localStorage.removeItem(config.SUM_LOCAL_STORAGE_KEY_FUR_JWT);
+    localStorage.removeItem(config.SUM_LOCAL_STORAGE_KEY_FUR_JWT)
   }
 
-  get (url: string, opts = {}) {
+  public get (url: string, opts = {}) {
     return this.apiInstance.get(this._formatUrl(url), opts)
   }
 
-  post (url: string, data = {}, opts = {}) {
+  public post (url: string, data = {}, opts = {}) {
     return this.apiInstance.post(this._formatUrl(url), data, opts)
   }
 
-  put (url: string, data = {}, opts = {}) {
+  public put (url: string, data = {}, opts = {}) {
     return this.apiInstance.put(this._formatUrl(url), data, opts)
   }
 
-  delete (url: string, data = {}) {
+  public delete (url: string, data = {}) {
     return this.apiInstance.delete(this._formatUrl(url), data)
   }
 
-  _formatUrl (url: string) {
+  protected _formatUrl (url: string) {
     return [this.baseUrl, url].map((i) => trim(i, '\\/')).join('/')
   }
 }

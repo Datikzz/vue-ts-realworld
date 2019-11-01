@@ -11,15 +11,15 @@ import { AxiosResponse } from 'axios'
   store,
 })
 class TagModule extends VuexModule {
-  tags: Tag[] = []
+  public tags: Tag[] = []
 
   @Mutation
-  SET_TAGS (tags: Tag[]) {
+  public SET_TAGS (tags: Tag[]) {
     this.tags = tags
   }
 
   @Action({ rawError: true })
-  async GET_TAGS () {
+  public async GET_TAGS () {
     const res: AxiosResponse = await ApiService.get('tags')
     this.context.commit('SET_TAGS', res.data.tags)
   }

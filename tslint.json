@@ -22,7 +22,8 @@
     "space-before-function-paren": true,
     "max-classes-per-file": ["error", 2],
     "arrow-parens": ["error", "as-needed"],
-    "no-console": false
+    "no-console": false,
+    "no-string-literal": false
   },
   "jsRules": {
     "no-console": false

@@ -85,7 +85,7 @@ export default class Home extends Vue {
     try {
       await Promise.all([
         Tag.GET_TAGS(),
-        Article.GET_ARTICLES()
+        Article.GET_ARTICLES(),
       ])
     } catch (e) {
       console.error(e)
