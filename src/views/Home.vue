@@ -52,9 +52,9 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { mapGetters } from 'vuex'
 import ArticleList from '@/components/ArticleList.vue'
-import Tag from '@/store/modules/tag'
-import Article from '@/store/modules/article'
-import User from '@/store/modules/user'
+import TagModule from '@/store/modules/tag'
+import ArticleModule from '@/store/modules/article'
+import UserModule from '@/store/modules/user'
 import { ArticleRequestFilter } from '@/store/modules'
 import user from '@/store/modules/user'
 
@@ -72,10 +72,10 @@ enum FEED_TAB_CONST {
     FEED_TAB_CONST,
   }),
   computed: {
-    ...mapGetters('user', {
-      username: 'username',
-    }),
-  },
+    ...mapGetters('userStore', {
+      username: 'username'
+    })
+  }
 })
 export default class Home extends Vue {
   private activeTab = FEED_TAB_CONST.GLOBAL_TAB
@@ -84,19 +84,19 @@ export default class Home extends Vue {
   async created () {
     try {
       await Promise.all([
-        Tag.GET_TAGS(),
-        Article.GET_ARTICLES(),
+        TagModule.GET_TAGS(),
+        ArticleModule.GET_ARTICLES(),
       ])
     } catch (e) {
       console.error(e)
     }
   }
   get tagList () {
-    return Tag.tags
+    return TagModule.tags
   }
 
   get feed () {
-    return Article.articles
+    return ArticleModule.articles
   }
 
   get isUserTab () {

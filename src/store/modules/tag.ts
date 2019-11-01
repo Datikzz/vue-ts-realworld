@@ -7,7 +7,7 @@ import { AxiosResponse } from 'axios'
 @Module({
   namespaced: true,
   dynamic: true,
-  name: 'tag',
+  name: 'tagStore',
   store,
 })
 class TagModule extends VuexModule {
@@ -20,8 +20,8 @@ class TagModule extends VuexModule {
 
   @Action({ rawError: true })
   public async GET_TAGS () {
-    const res: AxiosResponse = await ApiService.get('tags')
-    this.context.commit('SET_TAGS', res.data.tags)
+    const { data }: AxiosResponse = await ApiService.get('tags')
+    this.context.commit('SET_TAGS', data.tags)
   }
 }
 

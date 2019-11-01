@@ -8,7 +8,7 @@ import { AxiosResponse } from 'axios'
 @Module({
   namespaced: true,
   dynamic: true,
-  name: 'user',
+  name: 'userStore',
   store,
 })
 class UserModule extends VuexModule {
@@ -28,32 +28,32 @@ class UserModule extends VuexModule {
   @Action({ rawError: true })
   public async LOG_IN (userCreds: AuthRequestBody) {
     const payload = { user: userCreds }
-    const res: AxiosResponse = await ApiService.post('users/login', payload)
-    ApiService.setJWT(res.data.user.token) // meh, probably add lodash
-    this.context.commit('SET_USER', res.data.user)
-    // return res.data.user
+    const { data }: AxiosResponse = await ApiService.post('users/login', payload)
+    ApiService.setJWT(data.user.token) // meh, probably add lodash
+    this.context.commit('SET_USER', data.user)
+    // return data.user
   }
 
   @Action({ commit: 'SET_USER', rawError: true })
   public async REGISTER (userCreds: RegisterRequestBody) {
     const payload = { user: userCreds }
-    const res: AxiosResponse = await ApiService.post('users', payload)
-    ApiService.setJWT(res.data.user.token) // meh, probably add lodash
-    return res.data.user
+    const { data }: AxiosResponse = await ApiService.post('users', payload)
+    ApiService.setJWT(data.user.token) // meh, probably add lodash
+    return data.user
   }
 
   @Action({ commit: 'SET_USER', rawError: true })
   public async LOAD_USER (token: string) {
     ApiService.setJWT(token)
-    const res: AxiosResponse = await ApiService.get('user')
-    return res.data.user
+    const { data }: AxiosResponse = await ApiService.get('user')
+    return data.user
   }
 
   @Action({ commit: 'SET_USER', rawError: true })
   public async UPDATE_USER (user: SettingsRequestBody) {
     const payload = { user }
-    const res: AxiosResponse = await ApiService.put('user', payload)
-    return res.data.user
+    const { data }: AxiosResponse = await ApiService.put('user', payload)
+    return data.user
   }
 
   @Action

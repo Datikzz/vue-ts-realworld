@@ -7,7 +7,7 @@ import { AxiosResponse } from 'axios'
 @Module({
   namespaced: true,
   dynamic: true,
-  name: 'article',
+  name: 'articleStore',
   store,
 })
 class ArticleModule extends VuexModule {
@@ -37,14 +37,14 @@ class ArticleModule extends VuexModule {
   @Action({ rawError: true })
   public async GET_ARTICLES (filters?: ArticleRequestFilter ) {
     const opts = { params: filters }
-    const res: AxiosResponse = await ApiService.get('articles', opts)
-    this.context.commit('SET_ARTICLES', res.data.articles)
+    const { data }: AxiosResponse = await ApiService.get('articles', opts)
+    this.context.commit('SET_ARTICLES', data.articles)
   }
 
   @Action({ rawError: true })
   public async GET_ARTICLE (slug: string) {
-    const res: AxiosResponse = await ApiService.get(`articles/${slug}`)
-    this.context.commit('SET_ARTICLE', res.data.article)
+    const { data }: AxiosResponse = await ApiService.get(`articles/${slug}`)
+    this.context.commit('SET_ARTICLE', data.article)
   }
 
   @Action({ rawError: true })
@@ -54,16 +54,16 @@ class ArticleModule extends VuexModule {
 
   @Action({ rawError: true })
   public async FAVORITE_ARTICLE (slug: string) {
-    const res: AxiosResponse = await ApiService.post(`articles/${slug}/favorite`)
-    this.context.commit('UPDATE_ARTICLES', res.data.article)
-    this.context.commit('SET_ARTICLE', res.data.article)
+    const { data }: AxiosResponse = await ApiService.post(`articles/${slug}/favorite`)
+    this.context.commit('UPDATE_ARTICLES', data.article)
+    this.context.commit('SET_ARTICLE', data.article)
   }
 
   @Action({ rawError: true })
   public async UNFAVORITE_ARTICLE (slug: string) {
-    const res: AxiosResponse = await ApiService.delete(`articles/${slug}/favorite`)
-    this.context.commit('UPDATE_ARTICLES', res.data.article)
-    this.context.commit('SET_ARTICLE', res.data.article)
+    const { data }: AxiosResponse = await ApiService.delete(`articles/${slug}/favorite`)
+    this.context.commit('UPDATE_ARTICLES', data.article)
+    this.context.commit('SET_ARTICLE', data.article)
   }
 }
 

@@ -68,7 +68,7 @@ import User from '@/store/modules/user'
     vueRoutes,
   }),
   computed: {
-    ...mapGetters('user', {
+    ...mapGetters('userStore', {
       isLoggedIn: 'isLoggedIn',
     }),
   },

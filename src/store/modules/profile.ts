@@ -7,7 +7,7 @@ import { AxiosResponse } from 'axios'
 @Module({
   namespaced: true,
   dynamic: true,
-  name: 'profile',
+  name: 'profileStore',
   store,
 })
 class ProfileModule extends VuexModule {
@@ -20,20 +20,20 @@ class ProfileModule extends VuexModule {
 
   @Action({ commit: 'SET_PROFILE', rawError: true })
   public async GET_PROFILE (username: string) {
-    const res: AxiosResponse = await ApiService.get(`profiles/${username}`)
-    return res.data.profile
+    const { data }: AxiosResponse = await ApiService.get(`profiles/${username}`)
+    return data.profile
   }
 
   @Action({ commit: 'SET_PROFILE', rawError: true })
   public async FOLLOW_PROFILE (username: string) {
-    const res: AxiosResponse = await ApiService.post(`profiles/${username}/follow`)
-    return res.data.profile
+    const { data }: AxiosResponse = await ApiService.post(`profiles/${username}/follow`)
+    return data.profile
   }
 
   @Action({ commit: 'SET_PROFILE', rawError: true })
   public async UNFOLLOW_PROFILE (username: string) {
-    const res: AxiosResponse = await ApiService.delete(`profiles/${username}/follow`)
-    return res.data.profile
+    const { data }: AxiosResponse = await ApiService.delete(`profiles/${username}/follow`)
+    return data.profile
   }
 }
 
